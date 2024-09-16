@@ -44,6 +44,7 @@ Move the `example_package_ros` and `example_package_msgs` directories (or create
 ```
 cd <your-ros-workspace>/src
 ln -s <path-to>/example_package_ros
+ln -s <path-to>/example_package_msgs
 ```
 
 Do the same for `assignment_example_pkg` if you haven't  installed it system-wide:
@@ -76,7 +77,7 @@ Tipp: You may want to put the sourcing command into your `.bashrc`.
 Launch `ExampleNode` with default parameters:
 
 ```bash
-ros2 launch example_package_ros example_node_launch.py
+ros2 launch example_package_ros example_node.launch.py
 ```
 
 Specify a custom message:
@@ -115,34 +116,32 @@ colcon test-result --verbose
 
 # Appendix
 
-### [optional] Installing `example_package` into the ROS Environment (instead of the virtual)
+### Installing python packages into the ROS Environment
 
-To ensure that `example_package` is available in the ROS environment, you can include it in your ROS workspace and build it using `colcon`. This approach integrates the package into the ROS build system and avoids issues with virtual environments.
+To ensure that any ROS-agnostic python package is available in the ROS environment, you can include it in your ROS workspace and build it using `colcon`. This approach integrates the package into the ROS build system and avoids issues with virtual environments.
 
-#### Step 1: Place `example_package` in Your ROS Workspace
+#### Step 1: Place `the_package` in Your ROS Workspace
 
-- Clone this repository (or create a softlink to it) to your ROS workspace's `src` directory
+- Put the package (or create a softlink to it) to your ROS workspace's `src` directory
 
   ```
   your_ros_workspace/
   └── src/
-      ├── example_package/        # The ROS-independent package
-      ├────── example_package/        # The ROS-independent package
-      └────── example_package_ros/    # The ROS-dependent package
+      ├── the_package/
   ```
 
-#### Step 2: Add a Minimal `package.xml` to `example_package`
+#### Step 2: Add a Minimal `package.xml` to `the_package`
 
-Since `colcon` builds packages based on the presence of a `package.xml` file, you need to add one to `example_package`.
+Since `colcon` builds packages based on the presence of a `package.xml` file, you need to add one to `the_package`.
 
-- **Create `example_package/package.xml`:**
+- **Create `the_package/package.xml`:**
 
   ```xml
   <?xml version="1.0"?>
   <package format="3">
-    <name>example_package</name>
+    <name>the_package</name>
     <version>0.0.1</version>
-    <description>ROS-independent example package</description>
+    <description>Some description</description>
     <maintainer email="somename@example.com">A Name</maintainer>
     <license>TODO: License</license>
     <buildtool_depend>ament_python</buildtool_depend>
@@ -150,9 +149,9 @@ Since `colcon` builds packages based on the presence of a `package.xml` file, yo
   </package>
   ```
 
-#### Step 3: Update `setup.py` in `example_package`
+#### Step 3: Update `setup.py` in `the_package`
 
-Ensure that `setup.py` in `example_package` is configured correctly for ROS builds.
+Ensure that `setup.py` in `the_package` is configured correctly for ROS builds.
 
 - **Add an empty `entry_points` section to your `setup.py` if it's not already present.**
 
@@ -184,14 +183,13 @@ Ensure that `setup.py` in `example_package` is configured correctly for ROS buil
       zip_safe=True,
       author='Your Name',
       author_email='you@example.com',
-      description='ROS-independent example package',
+      description='Some description',
       license='TODO',
   +   entry_points={
   +       'console_scripts': [],
   +   },
   )
   ```
-
 
 #### Step 4: Build the Workspace
 
@@ -203,7 +201,7 @@ cd your_ros_workspace
 colcon build
 ```
 
-This will build both `example_package` and `example_package_ros` and install them into the ROS environment.
+This will build `the_package` and install it into the ROS environment.
 
 #### Step 5: Source the Setup Script
 
@@ -211,6 +209,4 @@ This will build both `example_package` and `example_package_ros` and install the
 source install/setup.bash
 ```
 
-Now, both packages should be available in your ROS environment.
-
-
+Now, the package should be available in your ROS environment.
