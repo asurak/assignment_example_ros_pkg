@@ -29,24 +29,28 @@ source install/local_setup.bash
 
 ## Building the Package
 
-The ROS package requires the `example_package`, which you may have installed in the virtual environment.
+The ROS package requires the `example_package` in the repository [assignment_example_pkg](https://github.com/Sunrise-Robotics/assignment_example_pkg), which you may have installed in the virtual environment.
 However, when using a virtual environment together with ROS, note:
 
 > **Important**: when using virtual environments with ROS2, as it might not recognize packages installed in a virtual environment. It's often recommended to install Python packages system-wide or in the same environment as ROS2.
 
-If you have installed `example_package` system-wide, then you only need to add `example_package_ros` to your ROS workspace. If you haven't, it is recommended
+If you have installed `example_package` system-wide, then you only need to add the packages `example_package_ros` and `example_package_msgs` to your ROS workspace. If you haven't, it is recommended
 to **not** use the virtual environment, and instead put the `example_package` in the ROS workspace as well.
 
 > **Note**: See separate section below for a guide on how to install a package to your ROS2 environment. In short, it requires the package to have a `package.xml`. Conveniently, the `example_package` already has a package.xml so you can simply include it in your ROS workspace.
 
-Move the `example_package_ros` directory (or create a softlink to it) to your ROS workspace (if it is not already there):
+Move the `example_package_ros` and `example_package_msgs` directories (or create a softlink to them) to your ROS workspace (if it is not already there):
 
 ```
 cd <your-ros-workspace>/src
 ln -s <path-to>/example_package_ros
 ```
 
-Do the same for `example_package` if you haven't  installed it system-wide.
+Do the same for `assignment_example_pkg` if you haven't  installed it system-wide:
+
+```
+ln -s <path-to>/assignment_example_pkg/
+```
 
 Build the ROS package:
 
