@@ -1,0 +1,5 @@
+# Request
+string request_message
+---
+# Response
+string response_message

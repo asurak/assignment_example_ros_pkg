@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>example_package_ros</name>
+  <version>0.0.1</version>
+  <description>ROS-dependent example package</description>
+  <maintainer email="example@example123.com">Example Name</maintainer>
+  <license>TODO: License declaration</license>
+
+  <!-- Buildtool dependencies -->
+  <buildtool_depend>ament_python</buildtool_depend>
+  
+  <!-- Build dependencies -->
+  <build_depend>std_msgs</build_depend>
+
+  <!-- Execution dependencies -->
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>example_package</exec_depend>
+  <exec_depend>launch_testing</exec_depend>
+  <exec_depend>launch_testing_ros</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>launch</exec_depend>
+
+  <!-- Build and runtime dependencies -->
+  <depend>rclpy</depend>
+  <depend>example_package_msgs</depend>
+
+  <!-- Test dependencies -->
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+
+  <!-- Specify the build type -->
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+
+</package>

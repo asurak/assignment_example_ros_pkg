@@ -1,0 +1,9 @@
+# Goal
+string goal_message
+---
+# Result
+string result_message
+---
+# Feedback
+string feedback_message
+
