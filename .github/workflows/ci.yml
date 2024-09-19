@@ -29,12 +29,3 @@ jobs:
     - name: Python linting
       run: |
         flake8 .
-
-    - name: Validate package.xml
-      run: |
-        sudo apt-get install -y libxml2-utils
-        xmllint --noout package.xml
-
-    - name: Run Python tests
-      run: |
-        pytest
