@@ -11,7 +11,6 @@ on:
 defaults:
   run:
     shell: bash
-    working-directory: ./ros2_ws
 
 jobs:
   ros2_ci:
@@ -56,13 +55,13 @@ jobs:
     - name: Checkout this repository
       uses: actions/checkout@v4
       with:
-        path: /src/
+        path: ./src/
 
     - name: Checkout example_package
       uses: actions/checkout@v4
       with:
         repository: asurak/assignment_example_pkg
-        path: /src/assignment_example_pkg
+        path: ./src/assignment_example_pkg
     
     - name: Debug state
       run: |
