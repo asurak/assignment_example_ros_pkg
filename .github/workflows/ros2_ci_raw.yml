@@ -57,17 +57,17 @@ jobs:
         repository: asurak/assignment_example_pkg
         path: src/assignment_example_pkg
 
-    - name: Debug state
-      run: |
-        ls -laR
+    # - name: Debug state
+    #   run: |
+    #     ls -laR
 
-    - name: Link source
-      run: |
-        cd ./src
-        ln -s ../example_package_ros
-        ln -s ../example_package_msgs
-        ln -s ../_deps/assignment_example_pkg
-        cd ..
+    # - name: Link source
+    #   run: |
+    #     cd ./src
+    #     ln -s ../example_package_ros
+    #     ln -s ../example_package_msgs
+    #     ln -s ../_deps/assignment_example_pkg
+    #     cd ..
 
     - name: Build the workspace
       run: |
