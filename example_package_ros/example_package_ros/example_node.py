@@ -8,6 +8,7 @@ from example_package_msgs.action import Example as ExampleAction
 from rclpy.action import ActionServer
 from rclpy.callback_groups import ReentrantCallbackGroup
 
+
 class ExampleNode(Node):
     def __init__(self):
         super().__init__('example_node')
@@ -55,7 +56,7 @@ class ExampleNode(Node):
             self.get_logger().info('Goal contains "fail"; aborting.')
             goal_handle.abort()
             result = ExampleAction.Result()
-            result.result_message = "Aborted" 
+            result.result_message = "Aborted"
             return result
 
         for i in range(10):
@@ -67,9 +68,10 @@ class ExampleNode(Node):
 
         goal_handle.succeed()
         result = ExampleAction.Result()
-        result.result_message = "OK" 
+        result.result_message = "OK"
         self.get_logger().info('Goal succeeded.')
         return result
+
 
 def main(args=None):
     rclpy.init(args=args)
@@ -82,6 +84,7 @@ def main(args=None):
         node.destroy_node()
         if rclpy.ok():
             rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()

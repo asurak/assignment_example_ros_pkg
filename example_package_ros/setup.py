@@ -24,7 +24,7 @@ setup(
     maintainer='Example Name',
     maintainer_email='example@example.com',
     description='ROS-dependent example package',
-    #license='TODO',
+    # license='TODO',
     entry_points={
         'console_scripts': [
             'example_node = example_package_ros.example_node:main',

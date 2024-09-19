@@ -3,6 +3,7 @@ import unittest
 from example_package_ros.example_node import ExampleNode
 from std_msgs.msg import String
 
+
 class TestExampleNode(unittest.TestCase):
     def setUp(self):
         rclpy.init()
@@ -15,7 +16,7 @@ class TestExampleNode(unittest.TestCase):
     def test_publisher(self):
         # wait for the message to arrive.
         # Note: while rclpy.wait_for_message can be used, that does not spin.
-        # Using async spinners here is maybe a bit of overkill, so adopt the 
+        # Using async spinners here is maybe a bit of overkill, so adopt the
         # simple approach of spinning once until the message is received.
 
         msgs_received = []
@@ -23,13 +24,13 @@ class TestExampleNode(unittest.TestCase):
         def callback(msg):
             msgs_received.append(msg.data)
 
-        subscription = self.node.create_subscription(
+        subscription = self.node.create_subscription(  # noqa: F841
             String,
             'example_topic',
             callback,
             10)
 
-	# Spin the node to process incoming messages
+        # Spin the node to process incoming messages
         timeout = 5.0  # seconds
         end_time = self.node.get_clock().now() + rclpy.time.Duration(seconds=timeout)
         while rclpy.ok():

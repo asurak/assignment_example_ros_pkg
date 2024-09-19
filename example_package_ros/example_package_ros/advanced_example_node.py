@@ -1,5 +1,5 @@
 '''
-Simple implementation of a node that uses the action and service from ExampleNode
+Simple implementation of a node that uses the action and service from ExampleNode  # noqa: E501
 '''
 
 import rclpy
@@ -8,6 +8,7 @@ from std_msgs.msg import String
 from example_package_msgs.srv import Example as ExampleSrv
 from example_package_msgs.action import Example as ExampleAction
 from rclpy.action import ActionClient
+
 
 class AdvancedExampleNode(Node):
     def __init__(self):
@@ -21,11 +22,11 @@ class AdvancedExampleNode(Node):
             10)
 
         # Service Client
-        self.get_logger().info(f'Initializing service and waiting for it..."')
+        self.get_logger().info('Initializing service and waiting for it..."')
         self.cli = self.create_client(ExampleSrv, 'example_service')
 
         # Action Client
-        self.get_logger().info(f'Initializing action and waiting for it..."')
+        self.get_logger().info('Initializing action and waiting for it..."')
         self.action_client = ActionClient(self, ExampleAction, 'example_action')
 
         while not self.cli.wait_for_service(timeout_sec=1.0):
@@ -52,7 +53,9 @@ class AdvancedExampleNode(Node):
     def perform_action_query(self, goal_message):
         goal_msg = ExampleAction.Goal()
         goal_msg.goal_message = goal_message
-        send_goal_future = self.action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
+        send_goal_future = self.action_client.send_goal_async(
+            goal_msg, feedback_callback=self.feedback_callback
+        )
         rclpy.spin_until_future_complete(self, send_goal_future)
         goal_handle = send_goal_future.result()
         if not goal_handle.accepted:
@@ -67,6 +70,7 @@ class AdvancedExampleNode(Node):
 
     def feedback_callback(self, feedback_msg):
         self.get_logger().info(f'Feedback: "{feedback_msg.feedback.feedback_message}"')
+
 
 def main(args=None):
     rclpy.init(args=args)

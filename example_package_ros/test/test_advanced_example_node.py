@@ -8,7 +8,8 @@ import launch_testing.actions
 import pytest
 
 from example_package_ros.advanced_example_node import AdvancedExampleNode
-from example_package_msgs.srv import Example as ExampleSrv
+# from example_package_msgs.srv import Example as ExampleSrv
+
 
 class TestAdvancedExampleNode(unittest.TestCase):
     def setUp(self):
@@ -34,6 +35,7 @@ class TestAdvancedExampleNode(unittest.TestCase):
         self.assertEqual(action_result, 'Aborted')
 
     # TODO: test feedback of action
+
 
 @pytest.mark.launch_test
 @launch_testing.markers.keep_alive
