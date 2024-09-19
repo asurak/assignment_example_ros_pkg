@@ -71,27 +71,17 @@ jobs:
 
     - name: Rosdep dependencies
       run: |
+        pwd
+        ls -ls ./src
         sudo rosdep init
         rosdep update
         rosdep install --from-paths src -y --ignore-src
 
-   
-
-    # - name: Link source
-    #   run: |
-    #     cd ./src
-    #     ln -s ../example_package_ros
-    #     ln -s ../example_package_msgs
-    #     ln -s ../_deps/assignment_example_pkg
-    #     cd ..
-
     - name: Build the workspace
-      working-directory: ~/ros2_ws
       run: |
         colcon build
 
     - name: Run tests
-      working-directory: ~/ros2_ws
       run: |
         colcon test --packages-select example_package_ros
         colcon test-result --verbose
