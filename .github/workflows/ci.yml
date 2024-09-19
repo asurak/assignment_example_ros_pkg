@@ -8,9 +8,13 @@ on:
     branches:
       - main
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  python_ci:
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout code
@@ -29,3 +33,72 @@ jobs:
     - name: Python linting
       run: |
         flake8 .
+
+  ros2_ci:
+    needs: python_ci
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: ROS2 locale
+      run: |
+        sudo apt update && sudo apt install locales
+        sudo locale-gen en_US en_US.UTF-8
+        sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+        export LANG=en_US.UTF-8
+
+    - name: ROS2 enable repositories
+      run: |
+        sudo apt install software-properties-common
+        sudo add-apt-repository universe
+        sudo apt update && sudo apt install curl -y
+        sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+    
+    - name: Update all
+      run: |
+        sudo apt update
+        sudo apt upgrade -y
+    
+    - name: ROS2 dev tools
+      run: |
+        sudo apt install -y ros-dev-tools
+    
+    - name: ROS2 base install
+      run: |
+        sudo apt install -y ros-iron-ros-base
+
+    - name: Setup ROS environment
+      run: |
+        echo "source /opt/ros/iron/setup.bash" >> ~/.bashrc
+        source ~/.bashrc
+        colcon build
+        mkdir -p ./src
+
+    - name: Checkout this repository
+      uses: actions/checkout@v4
+      with:
+        path: ./src/
+
+    - name: Checkout example_package
+      uses: actions/checkout@v4
+      with:
+        repository: asurak/assignment_example_pkg
+        path: ./src/assignment_example_pkg
+
+    - name: Rosdep dependencies
+      run: |
+        source /opt/ros/iron/setup.bash
+        sudo rosdep init
+        rosdep update
+        rosdep install --from-paths src -y --ignore-src
+
+    - name: Build the workspace
+      run: |
+        source /opt/ros/iron/setup.bash
+        colcon build
+
+    - name: Run tests
+      run: |
+        source /opt/ros/iron/setup.bash
+        colcon test --packages-select example_package_ros
+        colcon test-result --verbose
