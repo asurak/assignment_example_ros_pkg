@@ -72,7 +72,7 @@ jobs:
     - name: Rosdep dependencies
       run: |
         sudo rosdep init
-        rosdep update
+        rosdep update --rosdistro iron
         rosdep install --from-paths src -y --ignore-src
 
     - name: Build the workspace
