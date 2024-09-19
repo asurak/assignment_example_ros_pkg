@@ -1,0 +1,41 @@
+name: ROS2 CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup ROS2
+      uses: ros-tooling/setup-ros@v0.7
+      with:
+        version: iron
+
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y python3-colcon-common-extensions
+
+    - name: Setup ROS environment
+      run: |
+        echo "source /opt/ros/iron/setup.bash" >> ~/.bashrc
+        source ~/.bashrc
+
+    - name: Build the workspace
+      run: |
+        colcon build
+
+    - name: Run tests
+      run: |
+        colcon test
+        colcon test-result --verbose
