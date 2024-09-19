@@ -60,6 +60,12 @@ jobs:
       with:
         repository: asurak/assignment_example_pkg
         path: ${ROS_HOME}/src/assignment_example_pkg
+    
+    - name: Rosdep dependencies
+      run: |
+        sudo rosdep init
+        rosdep update
+        rosdep install --from-paths src -y --ignore-src
 
     # - name: Debug state
     #   run: |
@@ -75,9 +81,11 @@ jobs:
 
     - name: Build the workspace
       run: |
+        cd ${ROS_HOME}
         colcon build
 
     - name: Run tests
       run: |
-        colcon test
+        cd ${ROS_HOME}
+        colcon test --packages-select example_package_ros
         colcon test-result --verbose
