@@ -57,7 +57,6 @@ jobs:
     - name: Update all
       run: |
         sudo apt update
-        sudo apt upgrade -y
     
     - name: ROS2 dev tools
       run: |
