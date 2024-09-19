@@ -84,6 +84,7 @@ jobs:
       with:
         repository: asurak/assignment_example_pkg
         path: ./src/assignment_example_pkg
+        ref: v1.0.1
 
     - name: Rosdep dependencies
       run: |
