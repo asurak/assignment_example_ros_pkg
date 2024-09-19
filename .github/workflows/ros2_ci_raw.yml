@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+env:
+  ROS_HOME: ~/ros2_ws
+
 jobs:
   ros2_ci:
     runs-on: ubuntu-22.04
@@ -41,21 +44,23 @@ jobs:
       run: |
         sudo apt install -y ros-iron-ros-base
 
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        path: src/
-
     - name: Setup ROS environment
       run: |
         echo "source /opt/ros/iron/setup.bash" >> ~/.bashrc
         source ~/.bashrc
+        mkdir -p ${ROS_HOME}/src
+        rosdep install -i --from-path src --rosdistro iron -y
+
+    - name: Checkout this repository
+      uses: actions/checkout@v4
+      with:
+        path: ${ROS_HOME}/src/
 
     - name: Checkout example_package
       uses: actions/checkout@v4
       with:
         repository: asurak/assignment_example_pkg
-        path: src/assignment_example_pkg
+        path: ${ROS_HOME}/src/assignment_example_pkg
 
     # - name: Debug state
     #   run: |
