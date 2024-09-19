@@ -31,6 +31,20 @@ jobs:
         echo "source /opt/ros/iron/setup.bash" >> ~/.bashrc
         source ~/.bashrc
 
+    - name: Checkout example_package
+      uses: actions/checkout@v4
+      with:
+        repository: asurak/assignment_example_pkg
+        path: _deps/assignment_example_pkg
+
+    - name: Link source
+      run: |
+        cd ./src
+        ln -s ../example_package_ros
+        ln -s ../example_package_msgs
+        ln -s ../_deps/assignment_example_pkg
+        cd ..
+
     - name: Build the workspace
       run: |
         colcon build
