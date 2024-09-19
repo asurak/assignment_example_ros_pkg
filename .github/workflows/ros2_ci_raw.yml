@@ -78,9 +78,11 @@ jobs:
 
     - name: Build the workspace
       run: |
+        source /opt/ros/iron/setup.bash
         colcon build
 
     - name: Run tests
       run: |
+        source /opt/ros/iron/setup.bash
         colcon test --packages-select example_package_ros
         colcon test-result --verbose
