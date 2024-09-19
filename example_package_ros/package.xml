@@ -7,9 +7,6 @@
   <maintainer email="example@example123.com">Example Name</maintainer>
   <license>TODO: License declaration</license>
 
-  <!-- Buildtool dependencies -->
-  <buildtool_depend>ament_python</buildtool_depend>
-  
   <!-- Build dependencies -->
   <build_depend>std_msgs</build_depend>
 
