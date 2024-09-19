@@ -69,13 +69,13 @@ jobs:
           ls -la
           ls -laR
 
-    - name: Rosdep dependencies
-      run: |
-        pwd
-        ls -ls ./src
-        sudo rosdep init
-        rosdep update
-        rosdep install --from-paths src -y --ignore-src
+    # - name: Rosdep dependencies
+    #   run: |
+    #     pwd
+    #     ls -ls ./src
+    #     sudo rosdep init
+    #     rosdep update
+    #     rosdep install --from-paths src -y --ignore-src
 
     - name: Build the workspace
       run: |
