@@ -71,8 +71,9 @@ jobs:
 
     - name: Rosdep dependencies
       run: |
+        source /opt/ros/iron/setup.bash
         sudo rosdep init
-        rosdep update --rosdistro iron
+        rosdep update
         rosdep install --from-paths src -y --ignore-src
 
     - name: Build the workspace
