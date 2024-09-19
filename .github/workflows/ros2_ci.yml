@@ -20,7 +20,7 @@ jobs:
     - name: Setup ROS2
       uses: ros-tooling/setup-ros@v0.7
       with:
-        version: iron
+        required-ros-distributions: iron
 
     - name: Install dependencies
       run: |
@@ -37,6 +37,10 @@ jobs:
       with:
         repository: asurak/assignment_example_pkg
         path: _deps/assignment_example_pkg
+
+    - name: Debug state
+      run: |
+        ls -la
 
     - name: Link source
       run: |
