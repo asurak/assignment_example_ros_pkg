@@ -27,10 +27,10 @@ jobs:
         sudo apt update
         sudo apt install -y python3-colcon-common-extensions
 
-    - name: Setup ROS environment
-      run: |
-        echo "source /opt/ros/iron/setup.bash" >> ~/.bashrc
-        source ~/.bashrc
+    # - name: Setup ROS environment
+    #   run: |
+    #     echo "source /opt/ros/iron/setup.bash" >> ~/.bashrc
+    #     source ~/.bashrc
 
     - name: Checkout example_package
       uses: actions/checkout@v4
@@ -40,11 +40,9 @@ jobs:
 
     - name: Link source
       run: |
-        cd ./src
         ln -s ../example_package_ros
         ln -s ../example_package_msgs
         ln -s ../_deps/assignment_example_pkg
-        cd ..
 
     - name: Build the workspace
       run: |
