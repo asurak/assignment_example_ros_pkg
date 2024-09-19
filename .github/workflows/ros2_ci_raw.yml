@@ -1,0 +1,85 @@
+name: ROS2 CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ros2_ci:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: ROS2 locale
+      run: |
+        sudo apt update && sudo apt install locales
+        sudo locale-gen en_US en_US.UTF-8
+        sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+        export LANG=en_US.UTF-8
+
+    - name: ROS2 enable repositories
+      run: |
+        sudo apt install software-properties-common
+        sudo add-apt-repository universe
+        sudo apt update && sudo apt install curl -y
+        sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(. /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+    
+    - name: Update all
+      run: |
+        sudo apt update
+        sudo apt upgrade -y
+    
+    - name: ROS2 dev tools
+      run: |
+        sudo apt install -y ros-dev-tools
+    
+    - name: ROS2 base install
+      run: |
+        sudo apt install -y ros-iron-ros-base
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup ROS2
+      uses: ros-tooling/setup-ros@v0.7
+      with:
+        required-ros-distributions: iron
+
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y python3-colcon-common-extensions
+
+    - name: Setup ROS environment
+      run: |
+        echo "source /opt/ros/iron/setup.bash" >> ~/.bashrc
+        source ~/.bashrc
+
+    - name: Checkout example_package
+      uses: actions/checkout@v4
+      with:
+        repository: asurak/assignment_example_pkg
+        path: _deps/assignment_example_pkg
+
+    - name: Debug state
+      run: |
+        ls -la
+
+    - name: Link source
+      run: |
+        ln -s ../example_package_ros
+        ln -s ../example_package_msgs
+        ln -s ../_deps/assignment_example_pkg
+
+    - name: Build the workspace
+      run: |
+        colcon build
+
+    - name: Run tests
+      run: |
+        colcon test
+        colcon test-result --verbose
