@@ -63,6 +63,7 @@ jobs:
     
     - name: Rosdep dependencies
       run: |
+        cd ${ROS_HOME}
         sudo rosdep init
         rosdep update
         rosdep install --from-paths src -y --ignore-src
