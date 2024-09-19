@@ -84,12 +84,10 @@ jobs:
     - name: Build the workspace
       run: |
         cd $ROS_HOME
-        source install/local_setup.bash
         colcon build
 
     - name: Run tests
       run: |
         cd $ROS_HOME
-        source install/local_setup.bash
         colcon test --packages-select example_package_ros
         colcon test-result --verbose
