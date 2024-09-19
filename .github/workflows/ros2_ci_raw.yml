@@ -62,6 +62,13 @@ jobs:
         repository: asurak/assignment_example_pkg
         path: $ROS_HOME/src/assignment_example_pkg
     
+    - name: Debug state
+      run: |
+          cd $ROS_HOME
+          pwd
+          ls -la
+          ls -laR
+
     - name: Rosdep dependencies
       run: |
         cd $ROS_HOME
@@ -69,9 +76,7 @@ jobs:
         rosdep update
         rosdep install --from-paths src -y --ignore-src
 
-    # - name: Debug state
-    #   run: |
-    #     ls -laR
+   
 
     # - name: Link source
     #   run: |
