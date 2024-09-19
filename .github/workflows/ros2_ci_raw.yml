@@ -43,16 +43,8 @@ jobs:
 
     - name: Checkout repository
       uses: actions/checkout@v4
-
-    - name: Setup ROS2
-      uses: ros-tooling/setup-ros@v0.7
       with:
-        required-ros-distributions: iron
-
-    - name: Install dependencies
-      run: |
-        sudo apt update
-        sudo apt install -y python3-colcon-common-extensions
+        path: src/
 
     - name: Setup ROS environment
       run: |
@@ -63,17 +55,19 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: asurak/assignment_example_pkg
-        path: _deps/assignment_example_pkg
+        path: src/assignment_example_pkg
 
     - name: Debug state
       run: |
-        ls -la
+        ls -laR
 
     - name: Link source
       run: |
+        cd ./src
         ln -s ../example_package_ros
         ln -s ../example_package_msgs
         ln -s ../_deps/assignment_example_pkg
+        cd ..
 
     - name: Build the workspace
       run: |
