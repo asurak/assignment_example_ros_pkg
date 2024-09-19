@@ -9,9 +9,10 @@ on:
       - main
 
 jobs:
-  build:
+  build_docker:
     runs-on: ubuntu-latest
-
+    container:
+      image: ubuntu:jammy
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
