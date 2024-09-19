@@ -45,33 +45,34 @@ jobs:
         sudo apt install -y ros-iron-ros-base
 
     - name: Setup ROS environment
+      working-directory: $ROS_HOME
       run: |
         echo "source /opt/ros/iron/setup.bash" >> ~/.bashrc
         source ~/.bashrc
         colcon build
-        mkdir -p $ROS_HOME/src
+        mkdir -p ./src
 
     - name: Checkout this repository
       uses: actions/checkout@v4
       with:
-        path: $ROS_HOME/src/
+        path: ${ROS_HOME}/src/
 
     - name: Checkout example_package
       uses: actions/checkout@v4
       with:
         repository: asurak/assignment_example_pkg
-        path: $ROS_HOME/src/assignment_example_pkg
+        path: ${ROS_HOME}/src/assignment_example_pkg
     
     - name: Debug state
+      working-directory: $ROS_HOME
       run: |
-          cd $ROS_HOME
           pwd
           ls -la
           ls -laR
 
     - name: Rosdep dependencies
+      working-directory: $ROS_HOME
       run: |
-        cd $ROS_HOME
         sudo rosdep init
         rosdep update
         rosdep install --from-paths src -y --ignore-src
@@ -87,12 +88,12 @@ jobs:
     #     cd ..
 
     - name: Build the workspace
+      working-directory: $ROS_HOME
       run: |
-        cd $ROS_HOME
         colcon build
 
     - name: Run tests
+      working-directory: $ROS_HOME
       run: |
-        cd $ROS_HOME
         colcon test --packages-select example_package_ros
         colcon test-result --verbose
